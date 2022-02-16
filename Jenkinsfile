@@ -1,3 +1,4 @@
+def gv
 // CODE_CHANGES = getGitChanges()
 pipeline {
 
@@ -15,7 +16,13 @@ pipeline {
         SERVER_CREDENTIALS = credentials('dev') // need Credentials Binging plugin
     }
     stages {
-
+        stage("init") {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }
         stage("build") {
             // when {
             //     expression {
@@ -23,8 +30,11 @@ pipeline {
             //     }
             // }
             steps {
-                echo 'building the application...'
+                // echo 'building the application...'
                 echo "building version ${NEW_VERSION}"
+                script {
+                    gv.buildApp()
+                }
             }
         }
         
@@ -35,17 +45,18 @@ pipeline {
                 }
             }
             steps {
-                echo 'testing the application...'
-                // mvn --version
+                script {
+                    gv.testApp()
+                }
             }
         }
-
         
         stage("deploy") {
 
             steps {
-                echo 'deploying the application...'
-                echo "deploying with ${SERVER_CREDENTIALS}"
+                script {
+                    gv.deployApp()
+                }
 
                 withCredentials([
                     usernamePassword(credentialsId: 'dev', usernameVariable: 'USER', passwordVariable: 'PWD')
