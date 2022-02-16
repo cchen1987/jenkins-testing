@@ -65,8 +65,6 @@ pipeline {
                     echo "password ${PWD}"
                 }
 
-                echo "deploying version string ${params.VERSION_STRING}"
-                echo "deploying version choice ${params.VERSION_CHOICE}"
             }
         }
     }
