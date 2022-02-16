@@ -36,7 +36,7 @@ pipeline {
             }
             steps {
                 echo 'testing the application...'
-                mvn --version
+                // mvn --version
             }
         }
 
